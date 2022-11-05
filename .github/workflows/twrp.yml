@@ -149,14 +149,14 @@ jobs:
           Target: ${{ github.event.inputs.BUILD_TARGET }}.img
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-        name: Uploading recovery image
-         run: |
-              cd work/out/target/product/$DEVICE_NAME
-              sudo zip -r9 TWRP.zip recovery.img
-              ls > ls.txt
-              curl -F chat_id=$CHAT_ID -F document=@ls.txt -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument -F caption="Check it out @erwinabs"
-              curl -F chat_id=$CHAT_ID -F document=@TWRP.zip https://api.telegram.org/bot$BOT_TOKEN/sendDocument -F caption="Please test it @erwinabs"
-              curl -sL https://git.io/file-transfer | sh
-              ./transfer wet TWRP.zip
-              ./transfer wet recovery.img
+        
+    - name: Send TG
+      run: |
+         cd work/out/target/product/$DEVICE_NAME
+         sudo zip -r9 TWRP.zip recovery.img
+         ls > ls.txt
+         curl -F chat_id=$CHAT_ID -F document=@ls.txt -F parse_mode=markdown https://api.telegram.org/bot$BOT_TOKEN/sendDocument -F caption="Check it out @erwinabs"
+         curl -F chat_id=$CHAT_ID -F document=@TWRP.zip https://api.telegram.org/bot$BOT_TOKEN/sendDocument -F caption="Please test it @erwinabs"
+         curl -sL https://git.io/file-transfer | sh
+         ./transfer wet TWRP.zip
+         ./transfer wet recovery.img
